@@ -9,5 +9,6 @@ class MosaicForm(forms.ModelForm):
         fields = ('title', 'text',)
 
 class UploadPhotoForm(forms.Form):
-    title = forms.CharField(max_length=50)
-    file = forms.FileField()
+    class Meta:
+        model = Photo
+        fields = ('title', 'photo',)
