@@ -1,0 +1,15 @@
+{% extends 'photomosaic/base.html' %}
+
+{% block content %}
+<a href="{% url 'mosaic_new' %}">Click here to make a mosaic!</a><br />
+<a href="{% url 'photo_new' %}">Click here to add a photo!</a>
+    {% for mosaic in mosaics %}
+        <div class="mosaic">
+            <div class="date">
+                {{ mosaic.published_date }}
+            </div>
+            <h1><a href="{% url 'mosaic_detail' pk=mosaic.pk %}">{{ mosaic.title }}</a></h1>
+            <p>{{ mosaic.text|linebreaksbr }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
