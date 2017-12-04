@@ -1,6 +1,7 @@
 from django import forms
 
 from .models import Mosaic
+from .models import Photo
 
 class MosaicForm(forms.ModelForm):
 
