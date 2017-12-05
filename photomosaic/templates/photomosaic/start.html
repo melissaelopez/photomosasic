@@ -1,15 +1,29 @@
-{% extends 'photomosaic/base.html' %}
-
-{% block content %}
-<a href="{% url 'mosaic_new' %}">Click here to make a mosaic!</a><br />
-<a href="{% url 'photo_new' %}">Click here to add a photo!</a>
-    {% for mosaic in mosaics %}
-        <div class="mosaic">
-            <div class="date">
-                {{ mosaic.published_date }}
-            </div>
-            <h1><a href="{% url 'mosaic_detail' pk=mosaic.pk %}">{{ mosaic.title }}</a></h1>
-            <p>{{ mosaic.text|linebreaksbr }}</p>
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Final Project</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    </head>
+    <body>
+        <div class="page-header" id="grad">
+            <h1><a href="/">P H O T O M O S A I C</a></h1>
+            <a class="about" href="{% url 'about' %}">ABOUT</a>
         </div>
-    {% endfor %}
-{% endblock %}
+        <div class="start_container">
+            <a href="{% url 'mosaic_new' %}">
+                <div class="make_mosaic">
+                    MAKE A MOSAIC
+                </div>
+            </a>
+            <a href="{% url 'photo_new' %}">
+                <div class="add_photo">
+                    ADD A PHOTO
+                </div>
+            </a>
+        </div>
+
+    </body>
+</html>

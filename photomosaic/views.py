@@ -40,3 +40,6 @@ def photo_new(request):
     else:
         form = UploadPhotoForm()
     return render(request, 'photomosaic/photo_edit.html', {'form': form})
+
+def about(request):
+    return render(request, 'photomosaic/about.html', {})
