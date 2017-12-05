@@ -2,12 +2,11 @@
 
 {% block content %}
     <div class="mosaic">
-        {% if mosaic.published_date %}
+        {% if mosaic.created_date %}
             <div class="date">
-                {{ mosaic.published_date }}
+                {{ mosaic.created_date }}
             </div>
         {% endif %}
         <h1>{{ mosaic.title }}</h1>
-        <p>{{ mosaic.text|linebreaksbr }}</p>
     </div>
 {% endblock %}

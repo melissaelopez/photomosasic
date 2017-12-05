@@ -43,6 +43,7 @@
 
 .mosaic {
     margin-bottom: 70px;
+    margin-top: 40px;
 }
 
 .mosaic h1 a, .mosaic h1 a:visited {
@@ -62,13 +63,17 @@
     padding: 10%;
 }
 
-.make_mosaic:hover , .add_photo:hover {
-    background: #2EBCB2; /* For browsers that do not support gradients */
+.add_photo:hover {
+    background: #4f6ed6;
+}
+
+.make_mosaic:hover{
+    background: #4fcad6;
 }
 
 .start_container {
     width: 100vw;
-    height: 80vh;
+    height: 85vh;
 }
 
 a:hover {
