@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils import timezone
@@ -55,7 +56,7 @@ def photo_new(request):
             #handle_uploaded_file(request.FILES['file'])
             #using model forms to save images instead
             form.save()
-            return HttpResponseRedirect('/success/url/')
+            return HttpResponseRedirect('/')
     else:
         form = UploadPhotoForm()
     return render(request, 'photomosaic/photo_edit.html', {'form': form})

@@ -3,7 +3,7 @@ from django.utils import timezone
 
 from django.core.files.storage import FileSystemStorage
 
-fs = FileSystemStorage(location='/media/photos')
+fs = FileSystemStorage(location='./media/photos')
 
 class Mosaic(models.Model):
     title = models.CharField(max_length=200)
