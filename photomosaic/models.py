@@ -10,7 +10,7 @@ from django.utils import timezone
 from django.core.files.storage import Storage
 from django.core.files.storage import FileSystemStorage
 
-fs = FileSystemStorage(location='./media/photos')
+fs = FileSystemStorage(location=os.path.join('.', 'media', 'photos'))
 
 class Mosaic(models.Model):
     title = models.CharField(max_length=200)
@@ -29,12 +29,10 @@ class Photo(models.Model):
         #convert image to PIL object and classify it
         pil_image = Image.open(self.photo)
         color = color_id.get_classification('asdf', pil_image)
-        print color
 
         #edit save file path to corresponding color folder
         new_path = self.photo.path[:-(len(self.photo.name)+1)]
         new_path =  os.path.join(new_path, color[0])
-        print new_path
 
         #check if a folder exists for that color and create a new one if it doesn't
         #race condition handling from:
@@ -48,13 +46,11 @@ class Photo(models.Model):
 
         test_path = os.path.join(new_path, self.photo.name)
 
-        print test_path
-
-        
         #check if image exists already
         while os.path.exists(test_path):
             #generate a random string
-            random_string = ''.join(random.choice(string.lowercase) for i in range(7))
+            #https://stackoverflow.com/questions/37675280/how-to-generate-a-random-string
+            random_string = ''.join(random.choice(string.ascii_letters) for i in range(7))
             random_string = '_' + random_string
 
             #split extension from image name
@@ -62,14 +58,13 @@ class Photo(models.Model):
 
             #generate a new path with the random string appended to image name
             test_path = os.path.join(new_path, split[0] + random_string + split[1])
-            print test_path
 
         new_path = test_path
-        print 'new_path: ' + new_path
         
         #save the photo normally
         super(Photo, self).save(*args, **kwargs)
 
         #move the photo into the classified folder after saving it
-        os.rename(self.photo.path, new_path)
+        if os.path.isfile(self.photo.path):
+            os.rename(self.photo.path, new_path)
         

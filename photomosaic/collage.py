@@ -1,4 +1,5 @@
 from PIL import Image
+import os, random
 
 # Collage together images
 images_to_mosaic_together = ["1.jpg","2.jpg","3.jpg",
@@ -38,8 +39,25 @@ def collage(mosaic_map, tile_dimmensions, mosaic_width, mosaic_height, tile_size
     print("creating tiles ...")
     # UNCOMMENT THIS SECTION TO GENERATE SINGLE COLORED TILES FROM SCRATCH
     for item in mosaic_map:
-        new_tile = Image.new('RGB', tile_dimmensions, (int(item[1][0]), int(item[1][1]), int(item[1][2])))
-        images.append(new_tile)
+        #new_tile = Image.new('RGB', tile_dimmensions, (int(item[1][0]), int(item[1][1]), int(item[1][2])))
+
+        #retrieving items from file system based on color
+        color = item[0]
+        path = os.path.join('.', 'media', 'photos', color)
+        
+        #pick a random image from folder
+        #make sure all folders exist and have at least one image beforehand
+        image_list = os.listdir(path)
+        image_index = random.randrange(0, len(image_list))
+
+        #get the path of chosen image
+        image_name = image_list[image_index]
+        image_path = os.path.join(path, image_name)
+
+        #open the image and add it to the images list
+        if os.path.isfile(image_path):
+            images.append(Image.open(image_path))
+                
 
     print("resizing tiles ...")
     # Resize images for tiles
