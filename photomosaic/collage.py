@@ -75,7 +75,7 @@ def collage(mosaic_map, tile_dimmensions, mosaic_width, mosaic_height, tile_size
                 #add image to list for mosaic formation
                 images.append(new_tile)
                 
-                test.close()
+                image_from_bucket.close()
                 break
 
             #Code for retrieving from a local file system
