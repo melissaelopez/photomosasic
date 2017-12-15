@@ -1,5 +1,6 @@
 from PIL import Image
 import os, random
+from get_tile_requirements import resize_and_crop
 
 # Collage together images
 images_to_mosaic_together = ["1.jpg","2.jpg","3.jpg",
@@ -44,7 +45,7 @@ def collage(mosaic_map, tile_dimmensions, mosaic_width, mosaic_height, tile_size
         #retrieving items from file system based on color
         color = item[0]
         path = os.path.join('.', 'media', 'photos', color)
-        
+
         #pick a random image from folder
         #make sure all folders exist and have at least one image beforehand
         image_list = os.listdir(path)
@@ -54,10 +55,18 @@ def collage(mosaic_map, tile_dimmensions, mosaic_width, mosaic_height, tile_size
         image_name = image_list[image_index]
         image_path = os.path.join(path, image_name)
 
+
         #open the image and add it to the images list
+        # UNCOMMENT THIS FOR ORIGINAL VERSION PUSHED BY ZACHARY
+        # if os.path.isfile(image_path):
+        #     images.append(Image.open(image_path))
+
+        # UNCOMMENT THIS FOR MELISSA'S UPDATE (IF IT WORKS)
         if os.path.isfile(image_path):
-            images.append(Image.open(image_path))
-                
+            bg = resize_and_crop(image_path, tile_dimmensions.convert("RGBA"))
+            fg = Image.new('RGBA', tile_dimmensions, (int(item[1][0]), int(item[1][1]), int(item[1][2])))
+            new_tile = Image.blend(bg, fg, .9)
+            images.append(new_tile)
 
     print("resizing tiles ...")
     # Resize images for tiles
