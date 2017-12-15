@@ -63,7 +63,7 @@ def collage(mosaic_map, tile_dimmensions, mosaic_width, mosaic_height, tile_size
 
         # UNCOMMENT THIS FOR MELISSA'S UPDATE (IF IT WORKS)
         if os.path.isfile(image_path):
-            bg = resize_and_crop(image_path, tile_dimmensions.convert("RGBA"))
+            bg = resize_and_crop(image_path, tile_dimmensions).convert("RGBA")
             fg = Image.new('RGBA', tile_dimmensions, (int(item[1][0]), int(item[1][1]), int(item[1][2])))
             new_tile = Image.blend(bg, fg, .9)
             images.append(new_tile)
