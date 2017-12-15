@@ -1,5 +1,6 @@
 # PHOTOMOSAIC
 Final Project for NYU Large Scale Web Applications taught by Professor Yair Sovran
+
 Group Members: JD Choi, Zachary Lin, Melissa Lopez, and William Chen
 
 ## Project Objective
@@ -9,3 +10,15 @@ To build a Django application with an image classifier that allows the user to:
 
 
 ## Code Organization
+`mysite` --> boilerplate Django app files
+
+`myvenv` --> virtual environment files
+
+`photomosaic` --> application (including color classification + mosaic implementation code)
+
+
+## Color Classification + Mosaic Implementation Files
+* collage.py
+* color_id.py
+* get_mosaic.py
+* get_tile_requirements.py
