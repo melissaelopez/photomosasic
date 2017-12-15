@@ -1,8 +1,9 @@
 from PIL import Image
 import os, random
-
+from get_tile_requirements import resize_and_crop
 
 from google.cloud import storage
+import StringIO
 
 # Collage together images
 images_to_mosaic_together = ["1.jpg","2.jpg","3.jpg",
@@ -44,6 +45,7 @@ def collage(mosaic_map, tile_dimmensions, mosaic_width, mosaic_height, tile_size
     for item in mosaic_map:
         #new_tile = Image.new('RGB', tile_dimmensions, (int(item[1][0]), int(item[1][1]), int(item[1][2])))
 
+
         storage_client = storage.Client()
         bucket = storage_client.get_bucket('photomosaic_storage')
         
@@ -52,28 +54,29 @@ def collage(mosaic_map, tile_dimmensions, mosaic_width, mosaic_height, tile_size
         path =  'media/photos/' + color
         image_list = bucket.list_blobs(prefix=path)
 
+        
+        
         #iterate through images while skipping through directory name
-        dir = true
+        dir = 1
         for image in image_list:
-            if (dir == true):
-                dir = false
+            if (dir == 1):
+                dir = 0
             else:
-                print image
-        
-        
-        
-##        #pick a random image from folder
-##        #make sure all folders exist and have at least one image beforehand
-##        image_list = os.listdir(path)
-##        image_index = random.randrange(0, len(image_list))
-##
-##        #get the path of chosen image
-##        image_name = image_list[image_index]
-##        image_path = os.path.join(path, image_name)
-##
-##        #open the image and add it to the images list
-##        if os.path.isfile(image_path):
-##            images.append(Image.open(image_path))
+                #Download the image as a string and convert to stringIO
+                image_from_bucket = StringIO.StringIO()
+                image_from_bucket.write(image.download_as_string())
+                image_from_bucket.seek(0)
+
+                #resize image
+                bg = resize_and_crop(image_from_bucket, tile_dimmensions).convert("RGBA")
+                fg = Image.new('RGBA', tile_dimmensions, (int(item[1][0]), int(item[1][1]), int(item[1][2])))
+                new_tile = Image.blend(bg, fg, .9)
+
+                #add image to list for mosaic formation
+                images.append(new_tile)
+                
+                test.close()
+                break
 
             #Code for retrieving from a local file system
 ##        #retrieving items from file system based on color
@@ -89,10 +92,12 @@ def collage(mosaic_map, tile_dimmensions, mosaic_width, mosaic_height, tile_size
 ##        image_name = image_list[image_index]
 ##        image_path = os.path.join(path, image_name)
 ##
-##        #open the image and add it to the images list
+##       #resize image and append to array
 ##        if os.path.isfile(image_path):
-##            images.append(Image.open(image_path))
-                
+##            bg = resize_and_crop(image_path, tile_dimmensions).convert("RGBA"))
+##            fg = Image.new('RGBA', tile_dimmensions, (int(item[1][0]), int(item[1][1]), int(item[1][2])))
+##            new_tile = Image.blend(bg, fg, .9)
+##            images.append(new_tile)
 
     print("resizing tiles ...")
     # Resize images for tiles
