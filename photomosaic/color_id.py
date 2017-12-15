@@ -80,7 +80,11 @@ def get_classification(filename, img=None):
     else:
         rgb = getDominantColorHex(filename, img)
     hsl = rgbToHsl(rgb)
-    if (hsl[0] < 40):
+    if (hsl[2] < 10):
+        return ('black', rgb)
+    elif (hsl[2] > 90):
+        return ('white', rgb)
+    elif (hsl[0] < 40):
         return ('orange', rgb)
     elif (hsl[0] < 65):
         return ('yellow', rgb)
