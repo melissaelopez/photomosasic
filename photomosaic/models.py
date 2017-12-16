@@ -2,6 +2,7 @@ import os
 import color_id
 import logging
 #import cloudstorage as gcs
+import time
 
 import random, string
 
@@ -45,7 +46,7 @@ class Photo(models.Model):
         #edit save file path to corresponding color folder
         new_path = 'media/photos/' + color[0] + '/' + self.photo.name
 
-        #need to save before transferring
+        #need to save before transferring. delete images after transfer
         super(Photo, self).save(*args, **kwargs)
         
         #upload photo to bucket
