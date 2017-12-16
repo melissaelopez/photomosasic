@@ -76,7 +76,7 @@ def collage(mosaic_map, tile_dimmensions, mosaic_width, mosaic_height, tile_size
                 images.append(new_tile)
                 
                 image_from_bucket.close()
-                break
+
 
             #Code for retrieving from a local file system
 ##        #retrieving items from file system based on color
