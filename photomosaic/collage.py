@@ -55,27 +55,30 @@ def collage(mosaic_map, tile_dimmensions, mosaic_width, mosaic_height, tile_size
         image_list = bucket.list_blobs(prefix=path)
 
         
-        
+        image = 0
         #iterate through images while skipping through directory name
+        #get the newest image
         dir = 1
-        for image in image_list:
+        for blob in image_list:
             if (dir == 1):
                 dir = 0
             else:
-                #Download the image as a string and convert to stringIO
-                image_from_bucket = StringIO.StringIO()
-                image_from_bucket.write(image.download_as_string())
-                image_from_bucket.seek(0)
+                image = blob
 
-                #resize image
-                bg = resize_and_crop(image_from_bucket, tile_dimmensions).convert("RGBA")
-                fg = Image.new('RGBA', tile_dimmensions, (int(item[1][0]), int(item[1][1]), int(item[1][2])))
-                new_tile = Image.blend(bg, fg, .9)
+        #Download the image as a string and convert to stringIO
+        image_from_bucket = StringIO.StringIO()
+        image_from_bucket.write(image.download_as_string())
+        image_from_bucket.seek(0)
 
-                #add image to list for mosaic formation
-                images.append(new_tile)
+        #resize image
+        bg = resize_and_crop(image_from_bucket, tile_dimmensions).convert("RGBA")
+        fg = Image.new('RGBA', tile_dimmensions, (int(item[1][0]), int(item[1][1]), int(item[1][2])))
+        new_tile = Image.blend(bg, fg, .9)
+        
+        #add image to list for mosaic formation
+        images.append(new_tile)
                 
-                image_from_bucket.close()
+        image_from_bucket.close()
 
 
             #Code for retrieving from a local file system
